@@ -56,6 +56,7 @@ export default function PortfolioHero({ data }) {
           box-shadow:0 0 24px rgba(250,204,21,0.15);
         }
         .vy-scroll-btn { background:none; border:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:6px; animation:vy-bob 2.5s ease-in-out infinite; }
+        @media(max-width:768px) { .vy-hero-grid { grid-template-columns:1fr!important; padding:5rem 1.25rem 3rem!important; gap:2.5rem!important; } .vy-two-col { display:block!important; } .vy-two-col>*{margin-bottom:2rem;} section>div{padding-left:1.25rem!important;padding-right:1.25rem!important;} #hero{padding-bottom:7rem!important;} }
       `}</style>
 
       {/* Lightning crack SVG background */}
@@ -94,7 +95,7 @@ export default function PortfolioHero({ data }) {
       <div style={{ position:"absolute", bottom:"10%", right:"6%", width:"560px", height:"560px", borderRadius:"50%", background:"radial-gradient(circle, rgba(245,158,11,0.07) 0%, transparent 70%)", animation:"vy-drift 12s 2s ease-in-out infinite", pointerEvents:"none" }} />
 
       {/* Content */}
-      <div style={{
+      <div className="vy-hero-grid" style={{
         position:"relative", zIndex:10, maxWidth:"1200px", margin:"0 auto",
         padding:"100px 1.5rem 2rem",
         display:"grid",
@@ -170,8 +171,8 @@ export default function PortfolioHero({ data }) {
             <button onClick={scrollToContact} className="vy-cta-primary">
               <FaEnvelope style={{ fontSize:"13px" }} /> Get In Touch
             </button>
-            {data?.resumeBase64 && (
-              <a href={data.resumeBase64 ? `data:application/pdf;base64,${data.resumeBase64}` : "resume.pdf"} download="Resume.pdf" className="vy-cta-secondary">
+            {(data?.resumeBase64 || data?.resume || data?.resumeUrl) && (
+              <a href={data.resumeBase64 ? `data:application/pdf;base64,${data.resumeBase64}` : (data.resume || data.resumeUrl)} download="Resume.pdf" className="vy-cta-secondary">
                 <FaDownload style={{ fontSize:"12px" }} /> Download Resume
               </a>
             )}
@@ -183,13 +184,12 @@ export default function PortfolioHero({ data }) {
           <motion.div
             initial={{ opacity:0, scale:0.85 }} animate={{ opacity:1, scale:1 }} transition={{ duration:0.9, delay:0.4 }}
             style={{ position:"relative", flexShrink:0 }}
-            className="hidden md:block"
+            className="vy-hero-photo"
           >
-            {/* Spinning ring */}
+            {/* Static gradient ring */}
             <div style={{
               width:"280px", height:"280px", borderRadius:"50%",
               background:"conic-gradient(from 0deg, #FACC15, #F59E0B, #D97706, #FACC15)",
-              animation:"vy-spin 6s linear infinite",
               display:"flex", alignItems:"center", justifyContent:"center",
               boxShadow:"0 0 60px rgba(250,204,21,0.3), 0 0 120px rgba(250,204,21,0.1)",
             }}>
@@ -205,15 +205,6 @@ export default function PortfolioHero({ data }) {
                 />
               </div>
             </div>
-            {/* Orbiting dot */}
-            <div style={{
-              position:"absolute", top:"50%", left:"50%",
-              width:"10px", height:"10px", borderRadius:"50%",
-              background:"#FACC15",
-              boxShadow:"0 0 16px rgba(250,204,21,0.9)",
-              transform:"translate(-50%,-50%)",
-              animation:"vy-orbit 6s linear infinite",
-            }} />
             {/* Bolt decorations */}
             <div style={{ position:"absolute", top:"-16px", right:"-8px", color:"#FACC15", opacity:0.8, animation:"vy-pulse 3s ease-in-out infinite" }}>
               <FaBolt size={22} />
